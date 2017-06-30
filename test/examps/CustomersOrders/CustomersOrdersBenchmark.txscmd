@@ -1,0 +1,77 @@
+echo BENCHMARK TEST   $> benchmarkresult.log
+echo                  $>> benchmarkresult.log
+info                  $>> benchmarkresult.log
+echo                  $>> benchmarkresult.log
+param                 $>> benchmarkresult.log
+echo                  $>> benchmarkresult.log
+systart tmp1 startHost.bat
+tester Model Sut
+timer ts1
+test 10
+timer ts1             $>> benchmarkresult.log
+stop
+systop tmp1
+systart tmp2 startHost.bat
+tester Model Sut
+timer ts2
+test 10
+timer ts2             $>> benchmarkresult.log
+stop
+systop tmp2
+systart tmp3 startHost.bat
+tester Model Sut
+timer ts3
+test 10
+timer ts3             $>> benchmarkresult.log
+stop
+systop tmp3
+systart tmp4 startHost.bat
+tester Model Sut
+timer ts4
+test 10
+timer ts4             $>> benchmarkresult.log
+stop
+systop tmp4
+systart tmp5 startHost.bat
+tester Model Sut
+timer ts5
+test 10
+timer ts5             $>> benchmarkresult.log
+stop
+systop tmp5
+systart tmp6 startHost.bat
+tester Model Sut
+timer ts6
+test 10
+timer ts6             $>> benchmarkresult.log
+stop
+systop tmp6
+systart tmp7 startHost.bat
+tester Model Sut
+timer ts7
+test 10
+timer ts7             $>> benchmarkresult.log
+stop
+systop tmp7
+systart tmp8 startHost.bat
+tester Model Sut
+timer ts8
+test 10
+timer ts8             $>> benchmarkresult.log
+stop
+systop tmp8
+systart tmp9 startHost.bat
+tester Model Sut
+timer ts9
+test 10
+timer ts9             $>> benchmarkresult.log
+stop
+systop tmp9
+systart tmp10 startHost.bat
+tester Model Sut
+timer ts10
+test 10
+timer ts10             $>> benchmarkresult.log
+stop
+systop tmp10
+exit
