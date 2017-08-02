@@ -53,5 +53,6 @@ script:
 - travis_wait 50 stack --no-terminal test --haddock --no-haddock-deps --fast --coverage --stack-yaml stack_linux.yaml
 
 after_script:
-  - stack install hpc-coveralls --stack-yaml stack_linux.yaml
-  - hpc-coveralls --coverage-mode=StrictlyFullLines --exclude-dir=sys/behave/test test behave-test
+  - stack install codecov-haskell --stack-yaml stack_linux.yaml  
+  - codecov-haskell --tix-dir=$(stack path --local-hpc-root)/behave/ --mix-dir=$(stack path --dist-dir)/hpc/ behave-test
+  - codecov-haskell --tix-dir=$(stack path --local-hpc-root)/behave/behave-test/ --mix-dir=$(stack path --dist-dir)/hpc/ behave-test
