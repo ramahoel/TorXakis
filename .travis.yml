@@ -53,5 +53,5 @@ script:
 - travis_wait 50 stack --no-terminal test --haddock --no-haddock-deps --fast --coverage --stack-yaml stack_linux.yaml
 
 after_script:
-  - stack install stack-hpc-coveralls --stack-yaml stack_linux.yaml
-  - shc combined all
+  - stack install hpc-coveralls --stack-yaml stack_linux.yaml
+  - hpc-coveralls
