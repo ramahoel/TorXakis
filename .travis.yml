@@ -54,4 +54,4 @@ script:
 
 after_script:
   - stack install hpc-coveralls --stack-yaml stack_linux.yaml
-  - hpc-coveralls
+  - hpc-coveralls --coverage-mode=StrictlyFullLines --exclude-dir=sys/behave/test test behave-test
