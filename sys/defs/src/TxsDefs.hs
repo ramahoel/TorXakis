@@ -56,20 +56,21 @@ module TxsDefs
 , CnectId(CnectId)
 , ExitSort(..)
 , module X
+, module BehExprDefs
 )
 where
-import           Control.Arrow   ((***))
+import           Control.Arrow         ((***))
 import           Control.DeepSeq
-import qualified Data.Map        as Map
-import           GHC.Generics    (Generic)
+import qualified Data.Map              as Map
+import           GHC.Generics          (Generic)
 
-import           BehExprDefs     as X
-import           ConnectionDefs  as X
-import           ConstDefs       as X
-import           Ident           as X
-import           Name            as X
-import           TxsDef          as X
-import           Variable        as X
+import           BehExprDefs
+import           ConnectionDefs        as X
+import           ConstDefs             as X
+import           Ident                 as X
+import           Name                  as X
+import           TxsDef                as X
+import           Variable              as X
 
 import           ChanId
 import           CnectDef
@@ -93,8 +94,8 @@ import           StatId
 import           VarId
 
 import           ValExprDefs
-import           ValExprImpls            as X
-import           ValExprImplsExtension   as X
+import           ValExprImpls          as X
+import           ValExprImplsExtension as X
 
 -- ----------------------------------------------------------------------------------------- --
 -- torxakis definitions
