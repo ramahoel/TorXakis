@@ -36,53 +36,37 @@ import           ValExprDefs
 import           VarId
 
 -- | Behaviour Expression
---
--- Expressions that define labelled transition systems.
+-- | Expressions that define labelled transition systems.
 -- See paper [Model Based Testing with Labelled Transition Systems](www.cs.ru.nl/~tretmans/papers/mbtlts.pdf)
 --
-data BExpr
-    = -- | Behavior that cannot perform any action. The deadlocked process: \[
-      -- \Sigma \varnothing \]
-      Stop
-
-      -- | @ActionPref a B@ performs action @a@ then behaves as @B@.
-      --
-      -- \[ \texttt{ActionPref}\ a\ B \xrightarrow a B \]
-    | ActionPref  ActOffer BExpr
-    | Guard       VExpr BExpr
-
-    -- | @Choice bs@ behaves as one of the processes in @bs@:
-    --
-    -- \[ \dfrac{ b \xrightarrow \mu b' }{ \texttt{Choice}\ bs \xrightarrow \mu b'} b \in bs
-    --     \mu \in L \cup \{\tau\}
-    -- \]
-    | Choice      [BExpr]
-    | Parallel    [ChanId] [BExpr]
-    | Enable      BExpr [ChanOffer] BExpr
-    | Disable     BExpr BExpr
-    | Interrupt   BExpr BExpr
-      -- | Process instanciation.
-    | ProcInst    ProcId [ChanId] [VExpr]
-    | Hide        [ChanId] BExpr
-    | ValueEnv    VEnv BExpr
-    | StAut       StatId VEnv [Trans]
-    deriving (Eq,Ord,Read,Show, Generic, NFData)
-
+data BExpr = Stop
+           | ActionPref  ActOffer BExpr
+           | Guard       VExpr BExpr
+           | Choice      [BExpr]
+           | Parallel    [ChanId] [BExpr]
+           | Enable      BExpr [ChanOffer] BExpr
+           | Disable     BExpr BExpr
+           | Interrupt   BExpr BExpr
+           | ProcInst    ProcId [ChanId] [VExpr]
+           | Hide        [ChanId] BExpr
+           | ValueEnv    VEnv BExpr
+           | StAut       StatId VEnv [Trans]
+  deriving (Eq,Ord,Read,Show, Generic, NFData)
 
 -- | ActOffer
 -- Offer on multiple channels with constraints
-data  ActOffer      =  ActOffer { offers     :: Set.Set Offer      -- PvdL -- why not? -- Map ChanId [ChanOffer]
-                                , constraint :: VExpr
-                                }
-     deriving (Eq,Ord,Read,Show, Generic, NFData)
+data ActOffer = ActOffer
+  { offers     :: Set.Set Offer      -- PvdL -- why not? -- Map ChanId [ChanOffer]
+  , constraint :: VExpr
+  } deriving (Eq, Ord, Read, Show, Generic, NFData)
 
 
 -- | Offer
 -- Offer on a single channel (with multiple values)
-data  Offer         =  Offer { chanid     :: ChanId
-                             , chanoffers :: [ChanOffer]
-                             }
-     deriving (Eq,Ord,Read,Show, Generic, NFData)
+data Offer = Offer
+  { chanid     :: ChanId
+  , chanoffers :: [ChanOffer]
+  } deriving (Eq,Ord,Read,Show, Generic, NFData)
 
 -- | Channel Offer
 -- Offer of a single value

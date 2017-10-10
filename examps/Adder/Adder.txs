@@ -4,12 +4,10 @@ Copyright (c) 2015-2017 TNO and Radboud University
 See LICENSE at root directory of this repository.
 -}
 
-
 -- ----------------------------------------------------------------------------------------- --
 -- Model of (parallel) Adders, for one adder - Adder1 -, and for three adders - Adder3 -,
 -- with inputs "Plus(i) x y" and "Minus(i) x y", and output "Result(i) z".
 -- ----------------------------------------------------------------------------------------- --
-
 
 TYPEDEF  Operation ::=
       Plus  { p1, p2 :: Int }
@@ -20,7 +18,6 @@ FUNCDEF overflow (x :: Int) :: Bool ::=
     (x < -2147483648) \/ ( x > +2147483647)
 ENDDEF
 -- ----------------------------------------------------------------------------------------- --
-
 
 PROCDEF  adder  [ Act :: Operation;  Res :: Int ] ( ) ::=
        Act ?opn [[ IF isPlus(opn) THEN    not (overflow (p1(opn))) 
@@ -34,17 +31,13 @@ PROCDEF  adder  [ Act :: Operation;  Res :: Int ] ( ) ::=
                                    ELSE False FI ]]  >->  Res !m1(opn)-m2(opn)  >->  adder [ Act, Res ] ( )
 ENDDEF
 
-
 -- ----------------------------------------------------------------------------------------- --
-
 
 CHANDEF  Chans  ::=    Action, Action1, Action2, Action3  :: Operation
                      ; Result, Result1, Result2, Result3  :: Int
 ENDDEF
 
-
 -- ----------------------------------------------------------------------------------------- --
-
 
 MODELDEF  Adder ::=
     CHAN IN    Action
@@ -52,10 +45,9 @@ MODELDEF  Adder ::=
     BEHAVIOUR  adder [ Action, Result ] ( )
 ENDDEF
 
-
 -- ----------------------------------------------------------------------------------------- --
 
-CNECTDEF  Sut ::=
+CNECTDEF  SutConnection ::=
         CLIENTSOCK
 
         CHAN  OUT  Action                        HOST "localhost"  PORT 7890
