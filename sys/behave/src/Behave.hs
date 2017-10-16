@@ -69,13 +69,13 @@ import qualified Eval
 -- ----------------------------------------------------------------------------------------- --
 -- behInit :  initialize BTree
 
-
+-- TODO: QUESTION: in which cases this will return nothing?
+-- TODO: QUESTION: since 'afterActBBranch' returns '[BTree]', shouldn't this function also return a list (for the sake of uniformity...).
+-- TODO: QUESTION: what is the meaning of the first parameter.
 behInit :: [ Set.Set TxsDefs.ChanId ] -> TxsDefs.BExpr -> IOB.IOB (Maybe BTree)
 behInit chsets bexp  =  do
      btree' <- unfold chsets (BNbexpr Map.empty bexp)
      return $ Just btree'
-
-
 
 -- | behMayMenu :  may menu of BTree without quiescence
 --
@@ -87,11 +87,8 @@ behMayMenu chsets btree'
   =  [ ( btoffs, hidvars, pred' ) | BTpref btoffs hidvars pred' _ <- btree' ]
      ++ concat [ behMayMenu chsets btree'' | BTtau btree'' <- btree' ]
 
-
 -- ----------------------------------------------------------------------------------------- --
 -- behMustMenu :  must menu of BTree without quiescence
-
-
 behMustMenu :: [ Set.Set TxsDefs.ChanId ] -> BTree -> Menu
 behMustMenu _ _
   =  []

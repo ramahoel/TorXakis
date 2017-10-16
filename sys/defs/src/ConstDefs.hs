@@ -28,4 +28,5 @@ data Const = Cbool    { cBool :: Bool }
            | Cerror   { msg :: String }
   deriving (Eq, Ord, Read, Show, Generic, NFData)
 
+-- TODO: QUESTION: why is this called "W" Env?
 type WEnv v = Map.Map v Const

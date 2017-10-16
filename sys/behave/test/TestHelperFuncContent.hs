@@ -149,6 +149,7 @@ identicalChanOffer (Quest vid1) (Quest vid2)                    = identicalVarId
 identicalChanOffer (Exclam vexpr1) (Exclam vexpr2)              = identicalVExpr vexpr1 vexpr2
 identicalChanOffer _ _                                          = False
 
+-- TODO: QUESTION: why not making BExpr implement Eq?
 identicalBExpr :: BExpr -> BExpr -> Bool
 identicalBExpr Stop Stop = True
 identicalBExpr (ActionPref actOffer1 bExpr1) (ActionPref actOffer2 bExpr2)   =     identicalActOffer actOffer1 actOffer2

@@ -56,7 +56,7 @@ import           ChanId
 -- variables.
 expand :: [ Set.Set TxsDefs.ChanId ] -- ^ Set of expected synchronization channels.
        -> CNode
-       -> IOB.IOB CTree
+       -> IOB.IOB CTree -- QUESTION: why do we need an IO in expand at all?
 -- expand  :  for  BNbexpr WEnv BExpr
 expand _ (BNbexpr _ Stop)  = return []
 --
@@ -378,25 +378,29 @@ expand chsets (BNhide chans cnode)  =  do
 -- helper functions
 --
 -- ----------------------------------------------------------------------------------------- --
--- expand Offers
 
-
-expandOffers :: [ Set.Set TxsDefs.ChanId ] -> Set.Set Offer -> IOB.IOB ( Set.Set CTOffer, [(VarId,IVar)], [(IVar,VExpr)] )
+expandOffers :: [ Set.Set TxsDefs.ChanId ]
+             -> Set.Set Offer
+             -> IOB.IOB ( Set.Set CTOffer, [(VarId,IVar)], [(IVar,VExpr)] )
 expandOffers chsets offs  =  do
      ctofftuples <- mapM (expandOffer chsets) (Set.toList offs)
      let ( ctoffs, quests, exclams ) = unzip3 ctofftuples
      return ( Set.fromList ctoffs, concat quests, concat exclams )
 
 
-expandOffer :: [ Set.Set TxsDefs.ChanId ] -> Offer -> IOB.IOB ( CTOffer, [(VarId,IVar)], [(IVar,VExpr)] )
+expandOffer :: [ Set.Set TxsDefs.ChanId ]
+            -> Offer
+            -> IOB.IOB ( CTOffer, [(VarId,IVar)], [(IVar,VExpr)] )
 expandOffer _chsets (Offer chid choffs)  =  do
      ctchoffs <- mapM (expandChanOffer chid) ( zip choffs [1..(length choffs)] )
      let ( ivars, quests, exclams ) = unzip3 ctchoffs
      return ( CToffer chid ivars, concat quests, concat exclams )
 
 
-expandChanOffer :: ChanId -> (ChanOffer,Int) -> IOB.IOB ( IVar, [(VarId,IVar)], [(IVar,VExpr)] )
-expandChanOffer chid (choff,pos)  =  do
+expandChanOffer :: ChanId
+                -> (ChanOffer ,Int)
+                -> IOB.IOB ( IVar, [(VarId, IVar)], [(IVar, VExpr)] )
+expandChanOffer chid (choff, pos)  =  do
      curs <- gets IOB.stateid
      case choff of
        Quest  vid  -> do let ivar = IVar { ivname = ChanId.name chid
@@ -405,14 +409,14 @@ expandChanOffer chid (choff,pos)  =  do
                                          , ivstat = curs
                                          , ivsrt  = vsort vid
                                          }
-                         return ( ivar, [(vid,ivar)], [] )
+                         return ( ivar, [(vid, ivar)], [] )
        Exclam vexp -> do let ivar = IVar { ivname = ChanId.name chid
                                          , ivuid  = ChanId.unid chid
                                          , ivpos  = pos
                                          , ivstat = curs
                                          , ivsrt  = sortOf vexp
                                          }
-                         return ( ivar, [], [(ivar,vexp)] )
+                         return ( ivar, [], [(ivar, vexp)] )
 
 
 -- ----------------------------------------------------------------------------------------- --
