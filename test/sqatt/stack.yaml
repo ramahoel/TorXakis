@@ -71,3 +71,15 @@ arch: x86_64
 #
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
+
+# Use nix for building
+nix:
+  enable: false
+  packages:
+  # SMT solvers TorXakis depends on. TODO: once TorXakis in an nix package,
+  # this should be replaced by a `torxakis` entry.
+  - z3
+  - cvc4
+  ## Compilers needed for the tests
+  - openjdk
+
