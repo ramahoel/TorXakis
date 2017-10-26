@@ -13,10 +13,33 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Cmds
+                     , CmdsParser
+                     , CmdsHandler
+                     , UIM
+                     , Types
+  build-depends:       base >= 4.7 && < 5
+                     , mtl
+                     , transformers
+                     , parsec
+                     
+                     , defs
+  ghc-options:         -Wall -Werror -O
+  default-language:    Haskell2010                     
+
 executable ticl
   hs-source-dirs:      app
   main-is:             Main.hs
   ghc-options:         -Werror -O2 -optc-O3 -optc-ffast-math -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
-                     , haskeline  
+                     , haskeline
+                     , mtl
+                     , transformers
+
+                     , ticl
+                     , defs
   default-language:    Haskell2010
+  
